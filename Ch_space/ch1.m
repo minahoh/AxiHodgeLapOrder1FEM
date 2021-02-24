@@ -74,8 +74,6 @@ if mesh > 1
         tr=triangulation(ele,node);
         ed = edges(tr);
         load(['../new_ele',num2str(i),'.mat']);
-
-        %pdemesh(p,e,t, 'NodeLabels','on', 'ElementLabels','on');
         
         [basis_vertices,basis_rt1,x] = solve(p,t,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n);
         err(i) = errors_exact_ch_1(p,t,ed,new_ele,basis_vertices,basis_rt1,x,u_vec_r,u_vec_th,u_vec_z,n);
@@ -90,12 +88,10 @@ end
 
 % subfunction
 function [basis_vertices,basis_rt1,x] = solve(p,t,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n)
-    [basis_vertices] = basis_functions_weighted_HL_k_0_p1(p,t);
-    [basis_rt1] = basis_functions_rt1(p,t,ele,ed,new_ele);
+    basis_vertices = basis_functions_weighted_HL_k_0_p1(p,t);
+    basis_rt1 = basis_functions_rt1(p,t,ele,ed,new_ele);
     S = stiffness_matrix_ch_1(p,t,ed,new_ele,basis_vertices,basis_rt1,n);
     b = create_b_ch_1(p,t,ed,new_ele,basis_vertices,basis_rt1,f_vec_r,f_vec_th,f_vec_z,n);
     x = S\b;
 
-    %figure();
-    %pdeplot(p,e,t, 'XYData',x, 'ZData', x, 'Mesh', 'on');
 end

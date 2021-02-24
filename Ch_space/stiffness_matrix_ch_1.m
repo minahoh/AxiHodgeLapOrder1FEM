@@ -126,6 +126,7 @@ for T = 1:triangles
                 div_j = @(r,z) basis_rt1(1,j,T) + basis_rt1(5,j,T) ...
                     + 3.*basis_rt1(7,j,T).*r + 3.*basis_rt1(8,j,T).*z;
             else
+                % Basis functions for nodes using P1
                 J = basis_vertices(:,j-8,T);
                 aj = J(1);
                 bj = J(2);
