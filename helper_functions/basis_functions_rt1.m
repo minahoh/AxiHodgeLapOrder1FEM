@@ -9,7 +9,7 @@ function [RTBasis] = basis_functions_rt1(p,t,ele,edge,new_ele)
 %    basisY=@(x,y,i) RTBasis(4,i,k).*x+RTBasis(5,i,k).*y+RTBasis(6,i,k)+RTBasis(7,i,k).*x.*y+RTBasis(8,i,k).*y.*y;
 %    where basisX and basisY are the X and Y coordinates of the i-th basis
 %    function respectively. 
-%    Also not that,
+%    Also note that,
 %    divBasis=@(x,y,i) RTBasis(1,i,k)+2.*RTBasis(7,i,k).*x+RTBasis(8,i,k).*y...
 %                  +RTBasis(5,i,k)+2.*RTBasis(8,i,k).*y+RTBasis(7,i,k).*x;
 %
