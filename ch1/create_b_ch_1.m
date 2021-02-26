@@ -56,23 +56,23 @@ for T = 1:triangles
     for i = 1:11
         % get global i identity
         if i == 1
-            global_i = t_e(T,1);
+            global_i = nodes + t_e(T,1);
         elseif i == 2
-            global_i = edges + t_e(T,1); 
+            global_i = nodes + edges + t_e(T,1); 
         elseif i == 3
-            global_i = t_e(T,2);
+            global_i = nodes + t_e(T,2);
         elseif i == 4
-            global_i = edges + t_e(T,2);
+            global_i = nodes + edges + t_e(T,2);
         elseif i == 5
-            global_i = t_e(T,3);
+            global_i = nodes + t_e(T,3);
         elseif i == 6
-            global_i = edges + t_e(T,3);
+            global_i = nodes + edges + t_e(T,3);
         elseif i == 7
-            global_i = 2*edges + T;
+            global_i = nodes + 2*edges + T;
         elseif i == 8
-            global_i = 2*edges + triangles + T; 
+            global_i = nodes + 2*edges + triangles + T; 
         else
-            global_i = 2*edges + 2*triangles + t(i-8,T);
+            global_i = t(i-8,T); % 2*edges + 2*triangles + 
         end
         
         if i <= 8

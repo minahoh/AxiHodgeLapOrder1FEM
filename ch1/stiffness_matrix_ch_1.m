@@ -16,11 +16,11 @@ function [stiffness_matrix] = stiffness_matrix_ch_1(p,t,ed,t_e,basis_vertices,ba
 %         in triangle T.
 %     basis_vertices - a matrix representing piece-wise basis functions for 
 %         each edge and triangle in each triangle. basis_vertices(:,i,T)
-%         represents the pieceiwise basis function for the ith edge in 
+%         represents the pieceiwise basis function for the ith node in 
 %         triangle T.
 %     basis_rt1 - a matrix representing piece-wise basis functions for 
-%         each edge and triangle in each triangle. basis_rt1(:,i,T) represents the 
-%         pieceiwise basis function for the ith edge in triangle T.
+%         each edge and triangle in each triangle. basis_rt1(:,i,T)
+%         represents the ith pieceiwise basis function in triangle T.
 %     n - Hodge Laplacian on Axisymmetrix Domain and its discretization
 %     weight
 %
@@ -54,43 +54,43 @@ for T = 1:triangles
         for j = i:11
             % get global i identity
             if i == 1
-                global_i = t_e(T,1);
+                global_i = nodes + t_e(T,1);
             elseif i == 2
-                global_i = edges + t_e(T,1); 
+                global_i = nodes + edges + t_e(T,1); 
             elseif i == 3
-                global_i = t_e(T,2);
+                global_i = nodes + t_e(T,2);
             elseif i == 4
-                global_i = edges + t_e(T,2);
+                global_i = nodes + edges + t_e(T,2);
             elseif i == 5
-                global_i = t_e(T,3);
+                global_i = nodes + t_e(T,3);
             elseif i == 6
-                global_i = edges + t_e(T,3);
+                global_i = nodes + edges + t_e(T,3);
             elseif i == 7
-                global_i = 2*edges + T;
+                global_i = nodes + 2*edges + T;
             elseif i == 8
-                global_i = 2*edges + triangles + T; 
+                global_i = nodes + 2*edges + triangles + T; 
             else
-                global_i = 2*edges + 2*triangles + t(i-8,T);
+                global_i = t(i-8,T); %2*edges + 2*triangles + 
             end
             % get global j identity
             if j == 1
-                global_j = t_e(T,1);
+                global_j = nodes + t_e(T,1);
             elseif j == 2
-                global_j = edges + t_e(T,1); 
+                global_j = nodes + edges + t_e(T,1); 
             elseif j == 3
-                global_j = t_e(T,2);
+                global_j = nodes + t_e(T,2);
             elseif j == 4
-                global_j = edges + t_e(T,2);
+                global_j = nodes + edges + t_e(T,2);
             elseif j == 5
-                global_j = t_e(T,3);
+                global_j = nodes + t_e(T,3);
             elseif j == 6
-                global_j = edges + t_e(T,3);
+                global_j = nodes + edges + t_e(T,3);
             elseif j == 7
-                global_j = 2*edges + T;
+                global_j = nodes + 2*edges + T;
             elseif j == 8
-                global_j = 2*edges + triangles + T; 
+                global_j = nodes + 2*edges + triangles + T; 
             else
-                global_j = 2*edges + 2*triangles + t(j-8,T);
+                global_j = t(j-8,T); %2*edges + 2*triangles + 
             end
 
             if i <= 8
