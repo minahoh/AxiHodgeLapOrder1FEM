@@ -84,7 +84,7 @@ for T = 1:triangles
             fi = I(6);
             phi_i =@(r,z) (1./n).*(ai.*r.^3 + bi.*r.^2.*z + ci.*r.*z.^2 ...
                     + di.*r.^2 + ei.*r.*z + fi.*r);
-            
+
             J = basis_p2(:,j,T);
 
             aj = J(1);
@@ -95,7 +95,7 @@ for T = 1:triangles
             fj = J(6);
             phi_j =@(r,z) (1./n).*(aj.*r.^3 + bj.*r.^2.*z + cj.*r.*z.^2 ...
                     + dj.*r.^2 + ej.*r.*z + fj.*r);
-             
+ 
             integrand =@(r,z) phi_i(r,z).*phi_j(r,z).*r;
             
             Q = Wr'*feval(integrand,R,Z)*Wz;               

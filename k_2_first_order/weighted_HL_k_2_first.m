@@ -50,7 +50,8 @@ function [err_u,err_s] = weighted_HL_k_2_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns
 % Author: Nicole Stock
 % Date: Spring 2021
 
-addpath('../')
+addpath('../');
+addpath('../edge_resources/');
 
 model=createpde(1);
 g=decsg(gd,sf,ns);
@@ -62,7 +63,10 @@ ele=ele';
 node=p';
 tr=triangulation(ele,node);
 ed=edges(tr);
-load(['../new_ele',num2str(1),'.mat']);
+%load(['../new_ele',num2str(1),'.mat']);
+%t_ed = new_ele
+load(['t_ed_',num2str(1),'.mat']);
+t_ed = t_ed';
 
 % Find the midpoints for P2 nodal points
 [p2,t2] = find_midpoints(p,t);
@@ -80,8 +84,8 @@ if mesh > 1
     end   
 
     [basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,s_h] ...
-        = solve(p,t,p2,t2,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n);
-    [err_u(1),err_s(1)] = errors_exact_HL_k_2_first(p,t,t2,ed,new_ele,basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s_vec_r,s_vec_th,s_vec_z,n);
+        = solve(p,t,p2,t2,ele,ed,t_ed,f_vec_r,f_vec_th,f_vec_z,n);
+    [err_u(1),err_s(1)] = errors_exact_HL_k_2_first(p,t,t2,ed,t_ed,basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s_vec_r,s_vec_th,s_vec_z,n);
     
     for i = 2:mesh
         fprintf('%d\t',i);
@@ -93,14 +97,17 @@ if mesh > 1
         node=p';
         tr=triangulation(ele,node);
         ed = edges(tr);
-        load(['../new_ele',num2str(i),'.mat']);
+        %load(['../new_ele',num2str(i),'.mat']);
+        %t_ed = new_ele
+        load(['t_ed_',num2str(i),'.mat']);
+        t_ed = t_ed';
 
         % Find the midpoints for P2 nodal points
         [p2,t2] = find_midpoints(p,t);
         
         [basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,s_h]...
-            = solve(p,t,p2,t2,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n);
-        [err_u(i),err_s(i)] = errors_exact_HL_k_2_first(p,t,t2,ed,new_ele,basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s_vec_r,s_vec_th,s_vec_z,n);
+            = solve(p,t,p2,t2,ele,ed,t_ed,f_vec_r,f_vec_th,f_vec_z,n);
+        [err_u(i),err_s(i)] = errors_exact_HL_k_2_first(p,t,t2,ed,t_ed,basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s_vec_r,s_vec_th,s_vec_z,n);
     end
     fprintf('\nu\n');
     display_errors(err_u);

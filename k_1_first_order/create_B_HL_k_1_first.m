@@ -111,7 +111,7 @@ for T = 1:triangles
             + 2.*di.*r + ei.*z + fi);
             grad_i_th =@(r,z) -(ai.*r.^2 + bi.*r.*z + ci.*z.^2 + di.*r ...
                 + ei.*z + fi);
-            grad_i_z =@(r,z) (1./n).*(bi.*r.^2 + 2.*ci.*r.*z + ei.*r); 
+            grad_i_z =@(r,z) (1./n).*(bi.*r.^2 + 2.*ci.*r.*z + ei.*r);
 
             if j <=6
                 % P2 Basis Function

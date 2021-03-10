@@ -48,6 +48,7 @@ function [err_z,err_p] = weighted_HL_k_3_first(f,gd,sf,ns,mesh,z_vec_r,z_vec_th,
 % Date: Spring 2021
 
 addpath('../');
+addpath('../edge_resources/');
 
 model=createpde(1);
 g=decsg(gd,sf,ns);
@@ -59,7 +60,10 @@ ele=ele';
 node=p';
 tr=triangulation(ele,node);
 ed=edges(tr);
-load(['../new_ele',num2str(1),'.mat']);
+%load(['../new_ele',num2str(1),'.mat']);
+%t_ed = new_ele
+load(['t_ed_',num2str(1),'.mat']);
+t_ed = t_ed';
 
 % Init error vector
 err_z = zeros(1,mesh);
@@ -73,8 +77,8 @@ if mesh > 1
         it(i)=i;
     end   
 
-    [basis_p1,basis_rt1,z_h,p_h] = solve(p,t,ele,ed,new_ele,f,n);
-    [err_z(1),err_p(1)] = errors_exact_HL_k_3_first(p,t,ed,new_ele,basis_p1,basis_rt1,z_h,z_vec_r,z_vec_th,z_vec_z,p_h,p_exact,n);
+    [basis_p1,basis_rt1,z_h,p_h] = solve(p,t,ele,ed,t_ed,f,n);
+    [err_z(1),err_p(1)] = errors_exact_HL_k_3_first(p,t,ed,t_ed,basis_p1,basis_rt1,z_h,z_vec_r,z_vec_th,z_vec_z,p_h,p_exact,n);
     
     for i = 2:mesh
         % Refine mesh to next level
@@ -85,10 +89,13 @@ if mesh > 1
         node=p';
         tr=triangulation(ele,node);
         ed = edges(tr);
-        load(['../new_ele',num2str(i),'.mat']);
+        %load(['../new_ele',num2str(i),'.mat']);
+        %t_ed = new_ele
+        load(['t_ed_',num2str(i),'.mat']);
+        t_ed = t_ed';
         
-        [basis_p1,basis_rt1,z_h,p_h] = solve(p,t,ele,ed,new_ele,f,n);
-        [err_z(i),err_p(i)] = errors_exact_HL_k_3_first(p,t,ed,new_ele,basis_p1,basis_rt1,z_h,z_vec_r,z_vec_th,z_vec_z,p_h,p_exact,n);
+        [basis_p1,basis_rt1,z_h,p_h] = solve(p,t,ele,ed,t_ed,f,n);
+        [err_z(i),err_p(i)] = errors_exact_HL_k_3_first(p,t,ed,t_ed,basis_p1,basis_rt1,z_h,z_vec_r,z_vec_th,z_vec_z,p_h,p_exact,n);
     end
     fprintf('z\n');
     display_errors(err_z);
@@ -112,5 +119,4 @@ function [basis_p1,basis_rt1,z_h,p_h] = solve(p,t,ele,ed,new_ele,f,n)
     MB = (M\B);
     p_h = (Bt*MB)\F;
     z_h = MB*p_h;
-
 end
