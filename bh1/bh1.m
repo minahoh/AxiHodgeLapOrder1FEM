@@ -65,10 +65,9 @@ if mesh > 1
     end   
 
     [basis_p2,basis_nd1,x] = solve(p,t,p2,t2,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n);
-    err(1) = errors_exact_bh_1(p,t,p2,t2,ed,new_ele,basis_p2,basis_nd1,x,u_vec_r,u_vec_th,u_vec_z,n);
+    err(1) = errors_exact_bh_1(p,t,t2,ed,new_ele,basis_p2,basis_nd1,x,u_vec_r,u_vec_th,u_vec_z,n);
     
     for i = 2:mesh
-        fprintf('%d\t',i);
         % Refine mesh to next level
         [p,e,t]=refinemesh(g,p,e,t,it,'regular');
         [~,triangles]=size(t);
@@ -83,7 +82,7 @@ if mesh > 1
         [p2,t2] = find_midpoints(p,t);
         
         [basis_p2,basis_nd1,x] = solve(p,t,p2,t2,ele,ed,new_ele,f_vec_r,f_vec_th,f_vec_z,n);
-        err(i) = errors_exact_bh_1(p,t,p2,t2,ed,new_ele,basis_p2,basis_nd1,x,u_vec_r,u_vec_th,u_vec_z,n);
+        err(i) = errors_exact_bh_1(p,t,t2,ed,new_ele,basis_p2,basis_nd1,x,u_vec_r,u_vec_th,u_vec_z,n);
     end
     display_errors(err);
 

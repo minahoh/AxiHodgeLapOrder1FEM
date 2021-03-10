@@ -25,7 +25,7 @@ function stiffness_matrix = stiffness_matrix_bh_1(p,t,p2,t2,ed,t_e,basis_p2,basi
 %     basis_nd1 - a matrix representing piece-wise basis functions for 
 %         each edge and triangle in each triangle. basis_nd1(:,i,T)
 %         represents the ith pieceiwise basis function in triangle T.
-%     n - Hodge Laplacian on Axisymmetrix Domain and its discretization
+%     n - Hodge Laplacian on Axisymmetric Domain and its discretization
 %     weight
 %
 % Outputs:
@@ -63,25 +63,25 @@ for T = 1:triangles
                 % node
                 global_i = t(i,T);
             elseif i <= 6
-                % midpiint
-                global_i = nodes + t2(i-3,T);
+                % midpoint
+                global_i = nodes + 2*edges + 2*triangles + t2(i-3,T);
             elseif i == 7
-                global_i = nodes + midpoints + t_e(T,1);
+                global_i = nodes + t_e(T,1);
             elseif i == 8
-                global_i = nodes + midpoints + edges + t_e(T,1); 
+                global_i = nodes + edges + t_e(T,1); 
             elseif i == 9
-                global_i = nodes + midpoints + t_e(T,2);
+                global_i = nodes + t_e(T,2);
             elseif i == 10
-                global_i = nodes + midpoints + edges + t_e(T,2);
+                global_i = nodes + edges + t_e(T,2);
             elseif i == 11
-                global_i = nodes + midpoints + t_e(T,3);
+                global_i = nodes + t_e(T,3);
             elseif i == 12
-                global_i = nodes + midpoints + edges + t_e(T,3);
+                global_i = nodes + edges + t_e(T,3);
             elseif i == 13
-                global_i = nodes + midpoints + 2*edges + T;
+                global_i = nodes + 2*edges + T;
             else
                 % i == 14
-                global_i = nodes + midpoints + 2*edges + triangles + T; 
+                global_i = nodes + 2*edges + triangles + T; 
             end
             % get global j identity
             if j <= 3
@@ -89,24 +89,24 @@ for T = 1:triangles
                 global_j = t(j,T);
             elseif j <= 6
                 % midpiint
-                global_j = nodes + t2(j-3,T);
+                global_j = nodes + 2*edges + 2*triangles + t2(j-3,T);
             elseif j == 7
-                global_j = nodes + midpoints + t_e(T,1);
+                global_j = nodes + t_e(T,1);
             elseif j == 8
-                global_j = nodes + midpoints + edges + t_e(T,1); 
+                global_j = nodes + edges + t_e(T,1); 
             elseif j == 9
-                global_j = nodes + midpoints + t_e(T,2);
+                global_j = nodes + t_e(T,2);
             elseif j == 10
-                global_j = nodes + midpoints + edges + t_e(T,2);
+                global_j = nodes + edges + t_e(T,2);
             elseif j == 11
-                global_j = nodes + midpoints + t_e(T,3);
+                global_j = nodes + t_e(T,3);
             elseif j == 12
-                global_j = nodes + midpoints + edges + t_e(T,3);
+                global_j = nodes + edges + t_e(T,3);
             elseif j == 13
-                global_j = nodes + midpoints + 2*edges + T;
+                global_j = nodes + 2*edges + T;
             else
                 % j == 14
-                global_j = nodes + midpoints + 2*edges + triangles + T; 
+                global_j = nodes + 2*edges + triangles + T; 
             end
             
             if i <=6

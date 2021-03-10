@@ -4,7 +4,7 @@ function [err] = errors_exact_ch_1(p,t,ed,t_e,basis_vertices,basis_rt1,x,u_vec_r
 %
 % Syntax:
 %     [err] = 
-%         errors_exact_ch_1(p,t,ed,t_ed,basis_edges,basis_triangles,x,u_vec_r,u_vec_th,u_vec_z,n)
+%         errors_exact_ch_1(p,t,ed,t_e,basis_vertices,basis_rt1,x,u_vec_r,u_vec_th,u_vec_z,n)
 % Inputs:
 %     p - a 2xNumNodes matrix representing nodal coordinates.
 %     t - a 4xNumTriangles matrix representing the element connectivity in 
@@ -51,7 +51,6 @@ for T = 1:triangles
         
     [X,Y,Wx,Wy] = triquad(7, coordinates);
     
-
     basis_rt1_r = @(r,z,i) basis_rt1(1,i,T).*r + basis_rt1(2,i,T).*z ...
         + basis_rt1(3,i,T) + basis_rt1(7,i,T).*r.*r + basis_rt1(8,i,T).*r.*z;
     basis_rt1_th = @(r,z,i) (1./n).*(basis_rt1(1,i,T).*r + basis_rt1(2,i,T).*z ...
@@ -61,7 +60,7 @@ for T = 1:triangles
 
     % basis_p1_r = 0 , basis_p1_z = 0
     basis_p1_th = @(r,z,i) (1./n).*(basis_vertices(1,i,T).*r.*r ... 
-        + basis_vertices(2,i,T).*r.*z + basis_vertices(3,i,T).*r);  
+        + basis_vertices(2,i,T).*r.*z + basis_vertices(3,i,T).*r);
     
     approx_r = @(r,z) x(nodes+t_e(T,1)).*basis_rt1_r(r,z,1) + x(nodes+edges+t_e(T,1)).*basis_rt1_r(r,z,2)...
         + x(nodes+t_e(T,2)).*basis_rt1_r(r,z,3) + x(nodes+edges+t_e(T,2)).*basis_rt1_r(r,z,4)...
@@ -76,7 +75,7 @@ for T = 1:triangles
         + x(nodes+2*edges+triangles+T).*basis_rt1_th(r,z,8)...
         + x(t(1,T)).*basis_p1_th(r,z,1)...
         + x(t(2,T)).*basis_p1_th(r,z,2)...
-        + x(t(3,T)).*basis_p1_th(r,z,3); %2*edges+2*triangles+
+        + x(t(3,T)).*basis_p1_th(r,z,3);
     
     approx_z = @(r,z) x(nodes+t_e(T,1)).*basis_rt1_z(r,z,1)+x(nodes+edges+t_e(T,1)).*basis_rt1_z(r,z,2)...
         + x(nodes+t_e(T,2)).*basis_rt1_z(r,z,3) + x(nodes+edges+t_e(T,2)).*basis_rt1_z(r,z,4)...

@@ -59,25 +59,25 @@ for T = 1:triangles
             % node
             global_i = t(i,T);
         elseif i <= 6
-            % midpiint
-            global_i = nodes + t2(i-3,T);
+            % midpoint
+            global_i = nodes + 2*edges + 2*triangles + t2(i-3,T);
         elseif i == 7
-            global_i = nodes + midpoints + t_e(T,1);
+            global_i = nodes + t_e(T,1);
         elseif i == 8
-            global_i = nodes + midpoints + edges + t_e(T,1); 
+            global_i = nodes + edges + t_e(T,1); 
         elseif i == 9
-            global_i = nodes + midpoints + t_e(T,2);
+            global_i = nodes + t_e(T,2);
         elseif i == 10
-            global_i = nodes + midpoints + edges + t_e(T,2);
+            global_i = nodes + edges + t_e(T,2);
         elseif i == 11
-            global_i = nodes + midpoints + t_e(T,3);
+            global_i = nodes + t_e(T,3);
         elseif i == 12
-            global_i = nodes + midpoints + edges + t_e(T,3);
+            global_i = nodes + edges + t_e(T,3);
         elseif i == 13
-            global_i = nodes + midpoints + 2*edges + T;
+            global_i = nodes + 2*edges + T;
         else
             % i == 14
-            global_i = nodes + midpoints + 2*edges + triangles + T; 
+            global_i = nodes + 2*edges + triangles + T; 
         end
             
         if i <=6

@@ -49,7 +49,7 @@ for T = 1:triangles
         
     [R,Z,Wr,Wz] = triquad(7, coordinates);
     
-    % integrate for each pair of edges + 1 in the triangle
+    % integrate for each pair basis functions
     for i = 1:11
         for j = i:11
             % get global i identity
@@ -70,7 +70,7 @@ for T = 1:triangles
             elseif i == 8
                 global_i = nodes + 2*edges + triangles + T; 
             else
-                global_i = t(i-8,T); %2*edges + 2*triangles + 
+                global_i = t(i-8,T);
             end
             % get global j identity
             if j == 1
@@ -90,7 +90,7 @@ for T = 1:triangles
             elseif j == 8
                 global_j = nodes + 2*edges + triangles + T; 
             else
-                global_j = t(j-8,T); %2*edges + 2*triangles + 
+                global_j = t(j-8,T);
             end
 
             if i <= 8
