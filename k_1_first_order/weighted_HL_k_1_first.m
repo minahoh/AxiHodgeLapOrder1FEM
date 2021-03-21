@@ -1,6 +1,7 @@
-function [err_u,err_s] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,u_vec_r,u_vec_th,u_vec_z,s,n)
+function [basis_p2,basis_nd1,u_h,s_h] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,n)
 %WEIGHTED_HL_K_1_FIRST Hodge Laplacian k = 1 first order Finite Element Method.
-%   This program is set up to be given an exact solution.
+%   This program is set up to give approximations of the unknown solutions 
+%   u and s.
 %   Hodge Laplacian k = 1 case, first order
 %   {phi_i}i=1->N is the basis for Ah1
 %   {zeta_j}j=1->N+Ne is the basis for Bh1
@@ -13,37 +14,40 @@ function [err_u,err_s] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns
 %
 %
 % Syntax:
-%     [err] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,u_vec_r,u_vec_th,u_vec_z,s,n)
+%     [basis_p2,basis_nd1,u_h,s_h]
+%       = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,n)
 %     f_vec_r - given function r component
 %     f_vec_th - given function theta component
 %     f_vec_z - given function z component
 %     gd,sf,ns - outputs of pdepoly specifying domain
 %     mesh - max mesh level
-%     u_vec_r - exact solution z vector r component
-%     u_vec_th - exact solution z vector theta component
-%     u_vec_z - exact solution z vector z component
-%     s - exact solution s
+%     n - Fourier mode
 %
 % Outputs:
-%     err_u - array of L2 errors for mesh levels corresponding to indices
-%     err_s - array of L2 errors for mesh levels corresponding to indices
+%     basis_p2 - a matrix representing piece-wise basis functions for 
+%         each edge and triangle in each triangle. basis_p2(:,i,T)
+%         represents the pieceiwise basis function for the ith node or 
+%         midpoint in triangle T.
+%     basis_nd1 - a matrix representing piece-wise basis functions for 
+%         each edge and triangle in each triangle. basis_nd1(:,i,T)
+%         represents the ith pieceiwise basis function in triangle T.
+%     u_h - approximated solution for u
+%     s_h - approximated solution for s
 %
 % Usage Exampled:
 %    addpath ../helper_functions data
 %    n = 1;
-%    [u_vec_r,u_vec_th,u_vec_z,s,f_vec_r,f_vec_th,f_vec_z] = get_data_1(n);
+%    [~,~,~,~,f_vec_r,f_vec_th,f_vec_z] = get_data_1(n);
 %    mesh = 7;
 %    pdepoly([0,1,1,0], [0,0,1,1]);
 %       (OR) [gd,sf,ns] = get_gd_sf_ns([0,1,1,0],[0,0,1,1]);
-%    [err_u,err_s] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,u_vec_r,u_vec_th,u_vec_z,s,n);
+%    [basis_p2,basis_nd1,u_h,s_h] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,n);
 % Dependencies:
 %    ../new_ele[mesh].mat
 %    basis_functions_HL_k_3_first.m
 %    create_B_HL_k_1_first.m
 %    create_F_HL_k_1_first.m
 %    create_S_HL_k_1_first.m
-%    display_errors.m
-%    errors_exact_HL_k_1_first.m
 %    mass_matrix_HL_k_1_first.m
 %
 % Author: Nicole Stock
@@ -56,64 +60,36 @@ model=createpde(1);
 g=decsg(gd,sf,ns);
 geometryFromEdges(model,g);
 [p,e,t]=initmesh(g,'hmax',inf);
+
+% To ensure we refine every triangle the same
+[~,num_node]=size(p);
+it=zeros(1,num_node);
+for i=1:num_node
+    it(i)=i;
+end   
+
+for i = 2:mesh
+    fprintf('%d\t',i);
+    % Refine mesh to next level
+    [p,e,t]=refinemesh(g,p,e,t,it,'regular');    
+end
+
 [~,triangles]=size(t);
 ele=t(1:3,1:triangles);
 ele=ele';
 node=p';
 tr=triangulation(ele,node);
-ed=edges(tr);
-%load(['../new_ele',num2str(1),'.mat']);
+ed = edges(tr);
+%load(['../new_ele',num2str(mesh),'.mat']);
 %t_ed = new_ele;
-load(['t_ed_',num2str(1),'.mat']);
+load(['t_ed_',num2str(mesh),'.mat']);
 t_ed = t_ed';
-
 
 % Find the midpoints for P2 nodal points
 [p2,t2] = find_midpoints(p,t);
 
-% Init error vector
-err_u = zeros(1,mesh);
-err_s = zeros(1,mesh);
-
-if mesh > 1
-    % To ensure we refine every triangle the same
-    [~,num_node]=size(p);
-    it=zeros(1,num_node);
-    for i=1:num_node
-        it(i)=i;
-    end   
-
-    [basis_p2,basis_nd1,u_h,s_h] = solve(p,t,p2,t2,ele,ed,t_ed,f_vec_r,f_vec_th,f_vec_z,n);
-    [err_u(1),err_s(1)] = errors_exact_HL_k_1_first(p,t,p2,t2,ed,t_ed,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s,n);
-    
-    for i = 2:mesh
-        fprintf('%d\t',i);
-        % Refine mesh to next level
-        [p,e,t]=refinemesh(g,p,e,t,it,'regular');
-        [~,triangles]=size(t);
-        ele=t(1:3,1:triangles);
-        ele=ele';
-        node=p';
-        tr=triangulation(ele,node);
-        ed = edges(tr);
-        %load(['../new_ele',num2str(i),'.mat']);
-        %t_ed = new_ele;
-        load(['t_ed_',num2str(i),'.mat']);
-        t_ed = t_ed';
-        
-        % Find the midpoints for P2 nodal points
-        [p2,t2] = find_midpoints(p,t);
-        
-        [basis_p2,basis_nd1,u_h,s_h] = solve(p,t,p2,t2,ele,ed,t_ed,f_vec_r,f_vec_th,f_vec_z,n);
-        [err_u(i),err_s(i)] = errors_exact_HL_k_1_first(p,t,p2,t2,ed,t_ed,basis_p2,basis_nd1,u_h,u_vec_r,u_vec_th,u_vec_z,s_h,s,n);
-    end
-    fprintf('\nu\n');
-    display_errors(err_u);
-    fprintf('s\n');
-    display_errors(err_s);
-
-end
-% mesh level must be greater than 1
+% solve
+[basis_p2,basis_nd1,u_h,s_h] = solve(p,t,p2,t2,ele,ed,t_ed,f_vec_r,f_vec_th,f_vec_z,n);
 
 % end main
 end
