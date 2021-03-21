@@ -38,8 +38,7 @@ function B = create_B_HL_k_2_first(p,t,p2,t2,ed,t_e,basis_p1,basis_rt1,basis_p2,
 %     basis_nd1 - a matrix representing piece-wise basis functions for 
 %         each edge and triangle in each triangle. basis_nd1(:,i,T)
 %         represents the ith pieceiwise basis function in triangle T.
-%     n - Hodge Laplacian on Axisymmetrix Domain and its discretization
-%     weight
+%     n - Fourier mode
 %
 % Outputs:
 %     B - B matrix used to solve system of equations to approximate

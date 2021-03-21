@@ -33,8 +33,7 @@ function [err_u,err_s] = errors_exact_HL_k_1_first(p,t,p2,t2,ed,t_e,basis_p2,bas
 %     u_vec_z - exact solution u vector z component
 %     s_h - approximated solution of s
 %     s - exact solution s
-%     n - Hodge Laplacian on Axisymmetrix Domain and its discretization
-%     weight
+%     n - Fourier mode
 %
 % Outputs:
 %    err_u - L2 error for u approximation

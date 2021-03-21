@@ -12,7 +12,7 @@ function [z_vec_r,z_vec_th,z_vec_z,p_exact,f] = get_data_3(n)
 
 z_vec_r = @(r,z) -sin(pi.*z).*(4.*r.^3 - 3.*r.^2);
 z_vec_th = @(r,z) -n.*sin(pi.*z).*(r.^3 - r.^2);
-z_vec_z = @(r,z) -pi*cos(pi.*z).*(r.^4 - r.^3);
+z_vec_z = @(r,z) -pi.*cos(pi.*z).*(r.^4 - r.^3);
 p_exact = @(r,z) sin(pi.*z).*(r.^4 - r.^3);
 f = @(r,z) -sin(pi.*z).*(12.*r.^2 - 6.*r) - sin(pi.*z).*(4.*r.^2 - 3.*r) ...
     + n.^2.*sin(pi.*z).*(r.^2 - r) + pi.^2.*sin(pi*z).*(r.^4 - r.^3);

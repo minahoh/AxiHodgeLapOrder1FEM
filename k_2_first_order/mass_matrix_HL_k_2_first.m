@@ -23,8 +23,7 @@ function mass_matrix = mass_matrix_HL_k_2_first(p,t,p2,t2,ed,t_e,basis_p2,basis_
 %     basis_nd1 - a matrix representing piece-wise basis functions for 
 %         each edge and triangle in each triangle. basis_nd1(:,i,T)
 %         represents the ith pieceiwise basis function in triangle T.
-%     n - Hodge Laplacian on Axisymmetric Domain and its discretization
-%     weight
+%     n - Fourier mode
 %
 % Outputs:
 %     mass_matrix - mass matrix used to solve system of equations to

@@ -26,8 +26,7 @@ function F = create_F_HL_k_1_first(p,t,p2,t2,ed,t_e,basis_p2,basis_nd1,f_r,f_th,
 %     f_vec_r - given function r component
 %     f_vec_th - given function theta component
 %     f_vec_z - given function z component
-%     n - Hodge Laplacian on Axisymmetrix Domain and its discretization
-%     weight
+%     n - Fourier mode
 %
 % Outputs:
 %     F - F matrix used to solve system of equations to approximate
