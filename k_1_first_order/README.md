@@ -5,8 +5,13 @@
 ## Usage
 
 ### Syntax
+To compare a known exact solution u and to its approximated solution:
 ```
 [err] = weighted_HL_k_1_e(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,u_vec_r,u_vec_th,u_vec_z,s,n)
+```
+To find the approximated solution to an unknown solution:
+```
+[basis_p2,basis_nd1,u_h,s_h] = weighted_HL_k_1_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,n)
 ```
 
 ### Inputs
@@ -24,7 +29,10 @@
 ### Outputs
 `err_u` - array of L2 errors for mesh levels corresponding to indices  
 `err_s` - array of L2 errors for mesh levels corresponding to indices  
-
+`basis_p2` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_p2(:,i,T) represents the pieceiwise basis function for the ith node or midpoint in triangle T.  
+`basis_nd1` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_nd1(:,i,T) represents the ith pieceiwise basis function in triangle T.  
+`u_h` - approximated solution for u  
+`s_h` - approximated solution for s  
 
 ## Example
 ```

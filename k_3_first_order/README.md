@@ -5,25 +5,34 @@
 ## Usage
 
 ### Syntax
+To compare a known exact solution u and to its approximated solution:
 ```
 [err] = weighted_HL_k_3_e(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,z_vec_r,z_vec_th,z_vec_z,p_exact,n)
 ```
+To find the approximated solution to an unknown solution:
+
+```
+[basis_p1,basis_rt1,z_h,p_h] = weighted_HL_k_3_first(f,gd,sf,ns,mesh,n)
+```
 
 ### Inputs 
-`f` - given function
-`gd,sf,ns` - outputs of pdepoly specifying domain
-`mesh` - max mesh level
-`z_vec_r` - exact solution z vector r component
-`z_vec_th` - exact solution z vector theta component
-`z_vec_z` - exact solution z vector z component
-`p_vec_r` - exact solution p vector r component
-`p_vec_th` - exact solution p vector theta component
-`p_vec_z` - exact solution p vector z component
+`f` - given function  
+`gd,sf,ns` - outputs of pdepoly specifying domain  
+`mesh` - max mesh level  
+`z_vec_r` - exact solution z vector r component  
+`z_vec_th` - exact solution z vector theta component  
+`z_vec_z` - exact solution z vector z component  
+`p_vec_r` - exact solution p vector r component  
+`p_vec_th` - exact solution p vector theta component  
+`p_vec_z` - exact solution p vector z component  
 
 ### Outputs
-`err_z` - array of L2 errors for mesh levels corresponding to indices
-`err_p` - array of L2 errors for mesh levels corresponding to indices
-
+`err_z` - array of L2 errors for mesh levels corresponding to indices  
+`err_p` - array of L2 errors for mesh levels corresponding to indices  
+`basis_vertices` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_vertices(:,i,T) represents the pieceiwise basis function for the ith edge in triangle T.  
+`basis_rt1` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_rt1(:,i,T) represents the pieceiwise basis function for the ith edge in triangle T.  
+`z_h` - approximated solution for z  
+`p_h` - approximated solution for p  
 
 ## Example
 ```

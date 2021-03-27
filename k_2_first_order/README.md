@@ -6,8 +6,13 @@
 
 
 ### Syntax
+To compare a known exact solution u and to its approximated solution:
 ```
 [err] = weighted_HL_k_2_e(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,u_vec_r,u_vec_th,u_vec_z,s_vec_r,s_vec_th,s_vec_z,n)
+```
+To find the approximated solution to an unknown solution:
+```
+[basis_p1,basis_rt1,basis_p2,basis_nd1,u_h,s_h] = weighted_HL_k_2_first(f_vec_r,f_vec_th,f_vec_z,gd,sf,ns,mesh,n)
 ```
 
 ### Input
@@ -25,10 +30,14 @@
 `s_vec_z` - exact solution s vector z component  
 
 ### Outputs
-
 `err_u` - array of L2 errors for mesh levels corresponding to indices  
-`err_s` - array of L2 errors for mesh levels corresponding to indices  
-
+`err_s` - array of L2 errors for mesh levels corresponding to indices   
+`basis_p1` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_vertices(:,i,T) represents the pieceiwise basis function for the ith edge in triangle T.  
+`basis_rt1` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_rt1(:,i,T) represents the pieceiwise basis function for the ith edge in triangle T.  
+`basis_p2` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_p2(:,i,T) represents the pieceiwise basis function for the ith node or midpoint in triangle T.  
+`basis_nd1` - a matrix representing piece-wise basis functions for each edge and triangle in each triangle. basis_nd1(:,i,T) represents the ith pieceiwise basis function in triangle T.  
+`u_h` - approximated solution for u  
+`s_h` - approximated solution for s  
 
 ## Example
 ```
