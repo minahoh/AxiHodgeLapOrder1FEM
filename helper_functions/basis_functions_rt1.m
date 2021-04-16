@@ -57,7 +57,6 @@ function [RTBasis] = basis_functions_rt1(p,t,ele,edge,new_ele)
 % Edited By: Nicole Stock
 % Date: Spring 2021
 
-
 node=p';
 [~,triangles]=size(t);
 
@@ -186,55 +185,55 @@ for k=1:triangles
 
     if xs==xe 
 
-      abc(2*j-1,1)=edge_length*(xe/2 + xs/2);
-      abc(2*j-1,2)=edge_length*(ye/2 + ys/2);
+      abc(2*j-1,1)=edge_length.*(xe/2 + xs/2);
+      abc(2*j-1,2)=edge_length.*(ye/2 + ys/2);
       abc(2*j-1,3)=edge_length;
       abc(2*j-1,4)=0;
       abc(2*j-1,5)=0;
       abc(2*j-1,6)=0;
-      abc(2*j-1,7)=edge_length*(xe^2/3 + (xe*xs)/3 + xs^2/3);
-      abc(2*j-1,8)=edge_length*((xe*ye)/3 + (xe*ys)/6 + (xs*ye)/6 + (xs*ys)/3);
+      abc(2*j-1,7)=edge_length.*(xe.^2./3 + (xe.*xs)./3 + xs.^2./3);
+      abc(2*j-1,8)=edge_length.*((xe.*ye)./3 + (xe.*ys)./6 + (xs.*ye)./6 + (xs.*ys)./3);
 
-      abc(2*j,1)=edge_length*(xe/3 + xs/6);
-      abc(2*j,2)=edge_length*(ye/3 + ys/6);
-      abc(2*j,3)=edge_length/2;
+      abc(2*j,1)=edge_length.*(xe./3 + xs./6);
+      abc(2*j,2)=edge_length.*(ye./3 + ys./6);
+      abc(2*j,3)=edge_length./2;
       abc(2*j,4)=0;
       abc(2*j,5)=0;
       abc(2*j,6)=0;
-      abc(2*j,7)=edge_length*(xe^2/4 + (xe*xs)/6 + xs^2/12);
-      abc(2*j,8)=edge_length*((xe*ye)/4 + (xe*ys)/12 + (xs*ye)/12 + (xs*ys)/12);
+      abc(2*j,7)=edge_length.*(xe.^2./4 + (xe.*xs)./6 + xs.^2./12);
+      abc(2*j,8)=edge_length.*((xe.*ye)./4 + (xe.*ys)./12 + (xs.*ye)./12 + (xs.*ys)./12);
 
 
 
     elseif ys==ye
-
+      
      abc(2*j-1,1)=0;
      abc(2*j-1,2)=0;
      abc(2*j-1,3)=0;
-     abc(2*j-1,4)=edge_length*(xe/2 + xs/2);
-     abc(2*j-1,5)=edge_length*(ye/2 + ys/2);
+     abc(2*j-1,4)=edge_length.*(xe./2 + xs./2);
+     abc(2*j-1,5)=edge_length.*(ye./2 + ys./2);
      abc(2*j-1,6)=edge_length;
-     abc(2*j-1,7)=edge_length*((xe*ye)/3 + (xe*ys)/6 + (xs*ye)/6 + (xs*ys)/3);
-     abc(2*j-1,8)=edge_length*(ye^2/3 + (ye*ys)/3 + ys^2/3);
-
+     abc(2*j-1,7)=edge_length.*((xe.*ye)./3 + (xe.*ys)./6 + (xs.*ye)./6 + (xs.*ys)./3);
+     abc(2*j-1,8)=edge_length.*(ye.^2./3 + (ye.*ys)./3 + ys.^2./3);
+     
      abc(2*j,1)=0;
      abc(2*j,2)=0;
      abc(2*j,3)=0;
-     abc(2*j,4)= edge_length*(xe/3 + xs/6);
-     abc(2*j,5)=edge_length*(ye/3 + ys/6);
-     abc(2*j,6)=edge_length/2;
-     abc(2*j,7)=edge_length*((xe*ye)/4 + (xe*ys)/12 + (xs*ye)/12 + (xs*ys)/12);
-     abc(2*j,8)=edge_length*(ye^2/4 + (ye*ys)/6 + ys^2/12);
-
+     abc(2*j,4)= edge_length.*(xe./3 + xs./6);
+     abc(2*j,5)=edge_length.*(ye./3 + ys./6);
+     abc(2*j,6)=edge_length./2;
+     abc(2*j,7)=edge_length.*((xe.*ye)./4 + (xe.*ys)./12 + (xs.*ye)./12 + (xs.*ys)./12);
+     abc(2*j,8)=edge_length.*(ye.^2./4 + (ye.*ys)./6 + ys.^2./12);
+     
     else
 
-      abc(2*j-1,1)=edge_length*((2^(1/2)*xe)/4 + (2^(1/2)*xs)/4);
-      abc(2*j-1,2)=edge_length*((2^(1/2)*ye)/4 + (2^(1/2)*ys)/4);
-      abc(2*j-1,3)=(2^(1/2)*edge_length)/2;
-      abc(2*j-1,4)=edge_length*((2^(1/2)*xe)/4 + (2^(1/2)*xs)/4);
-      abc(2*j-1,5)=edge_length*((2^(1/2)*ye)/4 + (2^(1/2)*ys)/4);
-      abc(2*j-1,6)=(2^(1/2)*edge_length)/2;
-      abc(2*j-1,7)=edge_length*((2^(1/2)*xe^2)/6 + (2^(1/2)*xs^2)/6 + (2^(1/2)*xe*xs)/6 + (2^(1/2)*xe*ye)/6 + (2^(1/2)*xe*ys)/12 + (2^(1/2)*xs*ye)/12 + (2^(1/2)*xs*ys)/6);
+      abc(2*j-1,1)=edge_length.*((2.^(1./2).*xe)/4 + (2.^(1/2).*xs)./4);
+      abc(2*j-1,2)=edge_length.*((2.^(1./2).*ye)./4 + (2.^(1/2).*ys)./4);
+      abc(2*j-1,3)=(2.^(1./2).*edge_length)./2;
+      abc(2*j-1,4)=edge_length.*((2.^(1./2).*xe)./4 + (2.^(1./2).*xs)./4);
+      abc(2*j-1,5)=edge_length.*((2.^(1./2).*ye)./4 + (2.^(1./2).*ys)./4);
+      abc(2*j-1,6)=(2.^(1./2).*edge_length)./2;
+      abc(2*j-1,7)=edge_length.*((2.^(1./2).*xe.^2)./6 + (2.^(1./2).*xs.^2)./6 + (2.^(1./2).*xe.*xs)./6 + (2.^(1./2).*xe.*ye)./6 + (2.^(1./2).*xe.*ys)./12 + (2.^(1./2).*xs.*ye)./12 + (2.^(1./2).*xs.*ys)./6);
       abc(2*j-1,8)=edge_length*((2^(1/2)*ye^2)/6 + (2^(1/2)*ys^2)/6 + (2^(1/2)*xe*ye)/6 + (2^(1/2)*xe*ys)/12 + (2^(1/2)*xs*ye)/12 + (2^(1/2)*xs*ys)/6 + (2^(1/2)*ye*ys)/6);
 
       abc(2*j,1)=edge_length*((2^(1/2)*xe)/6 + (2^(1/2)*xs)/12);
