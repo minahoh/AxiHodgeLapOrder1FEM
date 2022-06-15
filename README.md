@@ -1,4 +1,4 @@
-# First Order Fourier Finite Element Methods to Approximate Hodge Laplacian Problems on Axisymmetric Domains
+# Higher Order Fourier Finite Element Methods to Approximate Hodge Laplacian Problems on Axisymmetric Domains
 
 ## Table of Contents
 
